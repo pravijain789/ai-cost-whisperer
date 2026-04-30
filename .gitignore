@@ -16,3 +16,6 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Claude AI instruction file — internal only
+CLAUDE.md
