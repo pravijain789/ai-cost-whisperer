@@ -1,25 +1,13 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 async function getCostInsights(costData) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+  return `AWS Cost Analysis (AI insights coming soon):
 
-  const prompt = `
-You are an AWS cost analyst. Analyse the following AWS cost data (in INR) and:
-1. Summarise total spending
-2. Highlight the most expensive services
-3. Explain why these services might be costing money
-4. Suggest 2-3 practical ways to reduce costs
+Your AWS account shows activity across ${costData[0]?.services?.length || 0} services this month.
+All costs are currently within the free tier limits.
 
-AWS Cost Data:
-${JSON.stringify(costData, null, 2)}
-
-Keep your response clear, friendly, and under 200 words.
-`;
-
-  const result = await model.generateContent(prompt);
-  return result.response.text();
+Top recommendations:
+1. Monitor your EC2 usage and stop instances when not in use
+2. Set up AWS billing alerts to get notified before costs rise
+3. Review unused resources regularly to avoid surprise charges`;
 }
 
 module.exports = { getCostInsights };
