@@ -10,11 +10,19 @@ const client = new CostExplorerClient({
   },
 });
 
+function getLocalDateString(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 async function getMonthlyCosts() {
   const today = new Date();
-  const start = new Date(today.getFullYear(), today.getMonth(), 1)
-    .toISOString().split('T')[0];
-  const end = today.toISOString().split('T')[0];
+  const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  const start = getLocalDateString(firstOfMonth);
+  const end = getLocalDateString(today);
 
   const command = new GetCostAndUsageCommand({
     TimePeriod: { Start: start, End: end },
@@ -29,8 +37,8 @@ async function getMonthlyCosts() {
     timePeriod: period.TimePeriod,
     services: period.Groups.map((group) => ({
       service: group.Keys[0],
-      costUSD: parseFloat(group.Metrics.UnblendedCost.Amount).toFixed(2),
-      costINR: (parseFloat(group.Metrics.UnblendedCost.Amount) * USD_TO_INR).toFixed(2),
+      costUSD: Math.abs(parseFloat(group.Metrics.UnblendedCost.Amount)).toFixed(2),
+      costINR: (Math.abs(parseFloat(group.Metrics.UnblendedCost.Amount)) * USD_TO_INR).toFixed(2),
     })),
   }));
 
