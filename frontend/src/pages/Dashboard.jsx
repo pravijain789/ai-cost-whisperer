@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CostChart from '../components/CostChart';
 import ServiceTable from '../components/ServiceTable';
 import InsightCard from '../components/InsightCard';
+import Particles from '../components/Particles';
 import { getCosts, getInsights } from '../services/api';
 import './Dashboard.css';
 
@@ -29,6 +30,23 @@ function Dashboard({ onBack }) {
     fetchData();
   }, []);
 
+  // Global cursor glow via CSS custom properties on :root
+  useEffect(() => {
+    const onMove = (e) => {
+      document.documentElement.style.setProperty('--mx', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--my', `${e.clientY}px`);
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
+  // Per-card spotlight: track mouse relative to each card
+  const handleCardMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--cx', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--cy', `${e.clientY - rect.top}px`);
+  };
+
   if (loading) {
     return (
       <div className="center-message">
@@ -55,6 +73,9 @@ function Dashboard({ onBack }) {
 
   return (
     <div className="dashboard">
+      <div className="cursor-glow" />
+      <Particles count={20} />
+
       <header className="dashboard-header">
         <div className="header-inner">
           <button className="back-btn" onClick={onBack}>← Back</button>
@@ -70,17 +91,20 @@ function Dashboard({ onBack }) {
       </header>
 
       <div className="stats-row">
-        <div className="stat-card stat-purple">
+        <div className="stat-card stat-purple" onMouseMove={handleCardMove}>
+          <div className="card-spotlight" />
           <span className="stat-icon">💵</span>
           <span className="stat-label">Total Cost (USD)</span>
           <span className="stat-value">${totalUSD}</span>
         </div>
-        <div className="stat-card stat-cyan">
+        <div className="stat-card stat-cyan" onMouseMove={handleCardMove}>
+          <div className="card-spotlight" />
           <span className="stat-icon">₹</span>
           <span className="stat-label">Total Cost (INR)</span>
           <span className="stat-value">₹{totalINR}</span>
         </div>
-        <div className="stat-card stat-orange">
+        <div className="stat-card stat-orange" onMouseMove={handleCardMove}>
+          <div className="card-spotlight" />
           <span className="stat-icon">☁️</span>
           <span className="stat-label">Services Active</span>
           <span className="stat-value">{activeServices}</span>

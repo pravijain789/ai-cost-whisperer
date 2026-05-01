@@ -1,0 +1,21 @@
+.particles-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.p-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  animation: pDrift ease-in-out infinite;
+}
+
+@keyframes pDrift {
+  0%,  100% { transform: translate(0px,   0px); }
+  25%        { transform: translate(9px,  -14px); }
+  50%        { transform: translate(-7px,  -6px); }
+  75%        { transform: translate(5px,  -20px); }
+}

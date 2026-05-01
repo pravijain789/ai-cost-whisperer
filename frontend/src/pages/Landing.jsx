@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Particles from '../components/Particles';
 import './Landing.css';
+
+const USER_NAME = 'Pravi';
 
 function Landing({ onEnter }) {
   const [visible, setVisible] = useState(false);
@@ -9,14 +12,32 @@ function Landing({ onEnter }) {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const onMove = (e) => {
+      document.documentElement.style.setProperty('--mx', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--my', `${e.clientY}px`);
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
   return (
     <div className="landing">
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
+      <div className="cursor-glow" />
+
+      <div className="aurora">
+        <div className="aurora-blob a1" />
+        <div className="aurora-blob a2" />
+        <div className="aurora-blob a3" />
+        <div className="aurora-blob a4" />
+      </div>
+
       <div className="grid-overlay" />
+      <Particles count={32} />
 
       <div className={`landing-content ${visible ? 'visible' : ''}`}>
+        <p className="welcome-greeting">Welcome back, {USER_NAME} 👋</p>
+
         <div className="landing-badge">
           <span className="badge-dot" />
           Live AWS Cost Intelligence
