@@ -5,7 +5,7 @@ import InsightCard from '../components/InsightCard';
 import { getCosts, getInsights } from '../services/api';
 import './Dashboard.css';
 
-function Dashboard() {
+function Dashboard({ onBack }) {
   const [costs, setCosts] = useState(null);
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,40 +30,58 @@ function Dashboard() {
   }, []);
 
   if (loading) {
-    return <div className="center-message">Loading your AWS costs...</div>;
+    return (
+      <div className="center-message">
+        <div className="loading-spinner" />
+        Fetching your AWS costs...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="center-message error">{error}</div>;
+    return (
+      <div className="center-message error">
+        <span style={{ fontSize: '2rem', marginBottom: '12px', display: 'block' }}>⚠️</span>
+        {error}
+      </div>
+    );
   }
 
   const period = costs[0];
   const services = period?.services || [];
-  const totalUSD = services
-    .reduce((sum, s) => sum + parseFloat(s.costUSD), 0)
-    .toFixed(4);
+  const totalUSD = services.reduce((sum, s) => sum + parseFloat(s.costUSD), 0).toFixed(4);
   const totalINR = (parseFloat(totalUSD) * 85).toFixed(2);
   const activeServices = services.filter(s => parseFloat(s.costUSD) > 0).length;
 
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>AI Cloud Cost Whisperer</h1>
-        <p>
-          AWS Billing Dashboard &mdash; {period?.timePeriod?.Start} to {period?.timePeriod?.End}
-        </p>
+        <div className="header-inner">
+          <button className="back-btn" onClick={onBack}>← Back</button>
+          <div className="header-text">
+            <h1>AI Cloud Cost Whisperer</h1>
+            <p>AWS Billing Dashboard &mdash; {period?.timePeriod?.Start} to {period?.timePeriod?.End}</p>
+          </div>
+          <div className="header-live">
+            <span className="live-dot" />
+            Live
+          </div>
+        </div>
       </header>
 
       <div className="stats-row">
-        <div className="stat-card">
+        <div className="stat-card stat-purple">
+          <span className="stat-icon">💵</span>
           <span className="stat-label">Total Cost (USD)</span>
           <span className="stat-value">${totalUSD}</span>
         </div>
-        <div className="stat-card">
+        <div className="stat-card stat-cyan">
+          <span className="stat-icon">₹</span>
           <span className="stat-label">Total Cost (INR)</span>
           <span className="stat-value">₹{totalINR}</span>
         </div>
-        <div className="stat-card">
+        <div className="stat-card stat-orange">
+          <span className="stat-icon">☁️</span>
           <span className="stat-label">Services Active</span>
           <span className="stat-value">{activeServices}</span>
         </div>
