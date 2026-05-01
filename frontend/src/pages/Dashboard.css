@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+}
+
+.dashboard {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  padding-bottom: 48px;
+}
+
+.dashboard-header {
+  background: #1a1a2e;
+  color: white;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 6px 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.dashboard-header p {
+  margin: 0;
+  opacity: 0.65;
+  font-size: 0.9rem;
+}
+
+.stats-row {
+  display: flex;
+  gap: 20px;
+  padding: 0 32px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 22px 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-top: 6px;
+}
+
+.chart-container,
+.table-container,
+.insight-card {
+  background: white;
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin: 0 32px 28px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.chart-container h2,
+.table-container h2,
+.insight-card h2 {
+  margin: 0 0 22px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.cost-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cost-table th {
+  text-align: left;
+  padding: 11px 14px;
+  background: #f8f9fa;
+  font-size: 0.82rem;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.cost-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.92rem;
+  color: #333;
+}
+
+.cost-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cost-table tbody tr:hover td {
+  background: #f8f9fa;
+}
+
+.insight-text {
+  white-space: pre-wrap;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.center-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #666;
+  background: #f0f2f5;
+}
+
+.center-message.error {
+  color: #e74c3c;
+}
+
+.empty-message {
+  color: #888;
+  text-align: center;
+  padding: 24px;
+  font-size: 0.95rem;
+}
