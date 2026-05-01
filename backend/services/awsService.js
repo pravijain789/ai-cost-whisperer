@@ -20,9 +20,10 @@ function getLocalDateString(date) {
 async function getMonthlyCosts() {
   const today = new Date();
   const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
   const start = getLocalDateString(firstOfMonth);
-  const end = getLocalDateString(today);
+  const end = getLocalDateString(tomorrow);
 
   const command = new GetCostAndUsageCommand({
     TimePeriod: { Start: start, End: end },
