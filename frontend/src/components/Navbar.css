@@ -1,0 +1,85 @@
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 64px;
+  font-family: 'Sora', 'Segoe UI', sans-serif;
+}
+
+/* Logo */
+.nav-logo {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.nav-logo-accent {
+  color: var(--c-primary);
+}
+
+/* Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(245, 245, 245, 0.45);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #f5f5f5;
+}
+
+/* CTA button */
+.nav-cta {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: background 0.2s ease, border-color 0.2s ease,
+              transform 0.15s ease;
+}
+
+.nav-cta:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.nav-cta:active {
+  transform: scale(0.97);
+}
+
+/* Hide links + CTA on small screens */
+@media (max-width: 768px) {
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+
+  .site-nav {
+    padding: 18px 24px;
+  }
+}

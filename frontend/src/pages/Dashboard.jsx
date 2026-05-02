@@ -6,6 +6,8 @@ import Particles from '../components/Particles';
 import { getCosts, getInsights } from '../services/api';
 import './Dashboard.css';
 
+const USER_NAME = 'Pravi';
+
 function Dashboard({ onBack }) {
   const [costs, setCosts] = useState(null);
   const [insights, setInsights] = useState(null);
@@ -30,7 +32,6 @@ function Dashboard({ onBack }) {
     fetchData();
   }, []);
 
-  // Global cursor glow via CSS custom properties on :root
   useEffect(() => {
     const onMove = (e) => {
       document.documentElement.style.setProperty('--mx', `${e.clientX}px`);
@@ -40,7 +41,6 @@ function Dashboard({ onBack }) {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // Per-card spotlight: track mouse relative to each card
   const handleCardMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty('--cx', `${e.clientX - rect.left}px`);
@@ -74,46 +74,71 @@ function Dashboard({ onBack }) {
   return (
     <div className="dashboard">
       <div className="cursor-glow" />
+
+      <div className="dash-aurora">
+        <div className="da-blob da1" />
+        <div className="da-blob da2" />
+        <div className="da-blob da3" />
+      </div>
+      <div className="dash-grid" />
       <Particles count={20} />
 
+      {/* ── Header ── */}
       <header className="dashboard-header">
         <div className="header-inner">
           <button className="back-btn" onClick={onBack}>← Back</button>
           <div className="header-text">
-            <h1>AI Cloud Cost Whisperer</h1>
+            <h1>CLOUD COST <span className="header-accent">WHISPERER</span></h1>
             <p>AWS Billing Dashboard &mdash; {period?.timePeriod?.Start} to {period?.timePeriod?.End}</p>
           </div>
-          <div className="header-live">
-            <span className="live-dot" />
-            Live
+          <div className="header-right">
+            <span className="header-greeting">Hi, {USER_NAME} 👋</span>
+            <div className="header-live">
+              <span className="live-dot" />
+              Live
+            </div>
           </div>
         </div>
       </header>
 
+      {/* ── Stat cards ── */}
       <div className="stats-row">
-        <div className="stat-card stat-purple" onMouseMove={handleCardMove}>
+        <div className="stat-card stat-sky" onMouseMove={handleCardMove}>
           <div className="card-spotlight" />
+          <div className="stat-fill" />
+          <span className="stat-super">This month</span>
           <span className="stat-icon">💵</span>
           <span className="stat-label">Total Cost (USD)</span>
           <span className="stat-value">${totalUSD}</span>
         </div>
         <div className="stat-card stat-cyan" onMouseMove={handleCardMove}>
           <div className="card-spotlight" />
+          <div className="stat-fill" />
+          <span className="stat-super">This month</span>
           <span className="stat-icon">₹</span>
           <span className="stat-label">Total Cost (INR)</span>
           <span className="stat-value">₹{totalINR}</span>
         </div>
-        <div className="stat-card stat-orange" onMouseMove={handleCardMove}>
+        <div className="stat-card stat-teal" onMouseMove={handleCardMove}>
           <div className="card-spotlight" />
+          <div className="stat-fill" />
+          <span className="stat-super">AWS services</span>
           <span className="stat-icon">☁️</span>
           <span className="stat-label">Services Active</span>
           <span className="stat-value">{activeServices}</span>
         </div>
       </div>
 
-      <CostChart services={services} />
-      <ServiceTable services={services} />
-      <InsightCard insights={insights} />
+      {/* ── Chart + Table side-by-side ── */}
+      <div className="content-grid">
+        <CostChart services={services} />
+        <ServiceTable services={services} />
+      </div>
+
+      {/* ── AI Insights full-width ── */}
+      <div className="insights-wrap">
+        <InsightCard insights={insights} />
+      </div>
     </div>
   );
 }

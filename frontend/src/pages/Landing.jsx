@@ -1,77 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import Particles from '../components/Particles';
+import React from 'react';
+import Navbar from '../components/Navbar';
 import './Landing.css';
 
 const USER_NAME = 'Pravi';
 
+const SplineScene = React.lazy(() => import('@splinetool/react-spline'));
+
 function Landing({ onEnter }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 80);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const onMove = (e) => {
-      document.documentElement.style.setProperty('--mx', `${e.clientX}px`);
-      document.documentElement.style.setProperty('--my', `${e.clientY}px`);
-    };
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
-
   return (
-    <div className="landing">
-      <div className="cursor-glow" />
+    <div className="landing-page">
+      <Navbar onEnter={onEnter} />
 
-      <div className="aurora">
-        <div className="aurora-blob a1" />
-        <div className="aurora-blob a2" />
-        <div className="aurora-blob a3" />
-        <div className="aurora-blob a4" />
-      </div>
+      <section className="hero-section">
 
-      <div className="grid-overlay" />
-      <Particles count={32} />
-
-      <div className={`landing-content ${visible ? 'visible' : ''}`}>
-        <p className="welcome-greeting">Welcome back, {USER_NAME} 👋</p>
-
-        <div className="landing-badge">
-          <span className="badge-dot" />
-          Live AWS Cost Intelligence
+        {/* ── Spline 3D background ── */}
+        <div className="hero-spline-wrap">
+          <React.Suspense fallback={<div className="spline-fallback" />}>
+            <SplineScene
+              scene="https://prod.spline.design/Slk6b8kz3LRlKiyk/scene.splinecode"
+            />
+          </React.Suspense>
         </div>
 
-        <h1 className="landing-title">
-          AI Cloud Cost<br />
-          <span className="gradient-text">Whisperer</span>
-        </h1>
+        {/* ── Dark overlay ── */}
+        <div className="hero-overlay" />
 
-        <p className="landing-subtitle">
-          Understand your AWS bill in plain English.<br />
-          Real-time data. AI-powered explanations. Zero confusion.
-        </p>
+        {/* ── Content — anchored bottom-left ── */}
+        <div className="hero-content">
 
-        <div className="landing-features">
-          <div className="feature-pill">
-            <span>📊</span> Real-time billing data
+          <p className="hero-welcome anim-fade-up" style={{ animationDelay: '0.1s' }}>
+            Welcome back, {USER_NAME} 👋
+          </p>
+
+          <p className="hero-quote anim-fade-up" style={{ animationDelay: '0.18s' }}>
+            "Every dollar saved begins with understanding where it goes."
+          </p>
+
+          <h1 className="hero-heading anim-fade-up" style={{ animationDelay: '0.28s' }}>
+            CLOUD COST<br />
+            <span className="heading-accent">WHISPERER</span>
+          </h1>
+
+          <p className="hero-sub anim-fade-up" style={{ animationDelay: '0.42s' }}>
+            Understand your AWS bill instantly.
+          </p>
+
+          <p className="hero-desc anim-fade-up" style={{ animationDelay: '0.56s' }}>
+            Real-time AWS cost tracking powered by AI. Get plain-English
+            explanations of every charge, intelligent savings recommendations,
+            and automated monitoring — all in one dashboard.
+          </p>
+
+          <div className="hero-buttons anim-fade-up" style={{ animationDelay: '0.7s' }}>
+            <button className="btn-primary" onClick={onEnter}>
+              View Dashboard
+            </button>
+            <button className="btn-white" onClick={onEnter}>
+              See How It Works
+            </button>
           </div>
-          <div className="feature-pill">
-            <span>🤖</span> AI cost insights
-          </div>
-          <div className="feature-pill">
-            <span>💡</span> Saving recommendations
-          </div>
+
+          <p className="hero-trust anim-fade-up" style={{ animationDelay: '0.85s' }}>
+            Powered by AWS Cost Explorer &middot; AI-driven insights &middot; Real-time monitoring
+          </p>
+
         </div>
-
-        <button className="cta-button" onClick={onEnter}>
-          <span>View Dashboard</span>
-          <span className="cta-arrow">→</span>
-        </button>
-
-        <p className="landing-hint">Powered by AWS Cost Explorer + AI</p>
-      </div>
+      </section>
     </div>
   );
 }
