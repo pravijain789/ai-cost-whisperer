@@ -6,6 +6,8 @@ import Particles from '../components/Particles';
 import { getCosts, getInsights } from '../services/api';
 import './Dashboard.css';
 
+const SplineScene = React.lazy(() => import('@splinetool/react-spline'));
+
 const USER_NAME = 'Pravi';
 
 function Dashboard({ onBack }) {
@@ -74,6 +76,14 @@ function Dashboard({ onBack }) {
   return (
     <div className="dashboard">
       <div className="cursor-glow" />
+
+      {/* ── Spline 3D background ── */}
+      <div className="dash-spline-wrap">
+        <React.Suspense fallback={<div className="dash-spline-fallback" />}>
+          <SplineScene scene="https://prod.spline.design/Slk6b8kz3LRlKiyk/scene.splinecode" />
+        </React.Suspense>
+      </div>
+      <div className="dash-spline-overlay" />
 
       <div className="dash-aurora">
         <div className="da-blob da1" />
