@@ -3,6 +3,8 @@
 A full-stack web app that pulls AWS billing data, visualises cost breakdowns,
 and uses GPT-4o to explain cost spikes in plain English.
 
+**Live app:** https://ai-cost-whisperer-frontend.onrender.com
+
 ## Tech Stack
 - Backend: Node.js + Express
 - Frontend: React + Recharts
