@@ -1,6 +1,6 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Groq = require('groq-sdk');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 async function getCostInsights(costData) {
   const services = costData[0]?.services || [];
@@ -35,9 +35,12 @@ Please provide:
 
 Keep the tone friendly and simple. Avoid deep technical jargon. Use Indian Rupees (₹) alongside dollars where helpful.`;
 
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-  const result = await model.generateContent(prompt);
-  return result.response.text();
+  const response = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  return response.choices[0].message.content;
 }
 
 module.exports = { getCostInsights };
