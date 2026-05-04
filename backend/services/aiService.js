@@ -1,13 +1,43 @@
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
 async function getCostInsights(costData) {
-  return `AWS Cost Analysis (AI insights coming soon):
+  const services = costData[0]?.services || [];
 
-Your AWS account shows activity across ${costData[0]?.services?.length || 0} services this month.
-All costs are currently within the free tier limits.
+  const activeServices = services
+    .filter(s => parseFloat(s.costUSD) > 0)
+    .sort((a, b) => parseFloat(b.costUSD) - parseFloat(a.costUSD));
 
-Top recommendations:
-1. Monitor your EC2 usage and stop instances when not in use
-2. Set up AWS billing alerts to get notified before costs rise
-3. Review unused resources regularly to avoid surprise charges`;
+  const totalUSD = activeServices
+    .reduce((sum, s) => sum + parseFloat(s.costUSD), 0)
+    .toFixed(2);
+
+  const totalINR = (totalUSD * 85).toFixed(2);
+
+  const serviceList = activeServices
+    .map(s => `- ${s.service}: $${s.costUSD} (₹${s.costINR})`)
+    .join('\n');
+
+  const prompt = `You are a friendly AWS cost expert helping a beginner developer understand their AWS bill.
+
+Here is their AWS cost data for this month:
+Total spend: $${totalUSD} (₹${totalINR})
+
+Breakdown by service:
+${serviceList || '- No active charges this month'}
+
+Please provide:
+1. A simple 2-line summary of their overall spending
+2. For the top 3 most expensive services — explain in plain English what that service does and why it costs money
+3. Three specific, actionable tips to reduce their AWS costs
+4. A friendly note on whether this spending looks normal for a developer project
+
+Keep the tone friendly and simple. Avoid deep technical jargon. Use Indian Rupees (₹) alongside dollars where helpful.`;
+
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+  const result = await model.generateContent(prompt);
+  return result.response.text();
 }
 
 module.exports = { getCostInsights };
