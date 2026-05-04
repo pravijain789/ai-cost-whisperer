@@ -24,7 +24,7 @@ function InsightCard({ insights }) {
           AI ANALYSIS
         </div>
         <div className="insight-meta-row">
-          <span className="insight-meta">GPT-4o &middot; {now}</span>
+          <span className="insight-meta">Groq Llama 3.3 &middot; {now}</span>
         </div>
       </div>
 
