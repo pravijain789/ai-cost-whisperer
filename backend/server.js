@@ -7,6 +7,7 @@ const { getMonthlyCosts } = require('./services/awsService');
 const CostSnapshot = require('./models/CostSnapshot');
 const costsRouter = require('./routes/costs');
 const insightsRouter = require('./routes/insights');
+const errorHandler = require('./middleware/errorHandler');
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
@@ -24,6 +25,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api/costs', costsRouter);
 app.use('/api/insights', insightsRouter);
+app.use(errorHandler);
 
 cron.schedule('0 0 * * *', async () => {
   try {

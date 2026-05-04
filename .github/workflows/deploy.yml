@@ -65,3 +65,15 @@ jobs:
           context: ./frontend
           push: true
           tags: pravi31jain/ai-cost-whisperer-frontend:latest
+          build-args: REACT_APP_API_URL=https://ai-cost-whisperer-backend.onrender.com
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Render backend deploy
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}"
+
+      - name: Trigger Render frontend deploy
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND }}"

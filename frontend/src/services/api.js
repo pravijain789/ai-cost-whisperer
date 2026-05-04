@@ -1,4 +1,6 @@
 import axios from 'axios';
 
-export const getCosts = () => axios.get('/api/costs').then(res => res.data);
-export const getInsights = () => axios.get('/api/insights').then(res => res.data);
+const BASE_URL = process.env.REACT_APP_API_URL || '';
+
+export const getCosts = () => axios.get(`${BASE_URL}/api/costs`).then(res => res.data);
+export const getInsights = () => axios.get(`${BASE_URL}/api/insights`).then(res => res.data);
