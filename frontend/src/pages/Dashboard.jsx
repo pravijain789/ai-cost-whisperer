@@ -90,7 +90,6 @@ function Dashboard({ onBack }) {
         <div className="da-blob da2" />
         <div className="da-blob da3" />
       </div>
-      <div className="dash-grid" />
       <Particles count={20} />
 
       {/* ── Header ── */}
